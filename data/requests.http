@@ -1,0 +1,53 @@
+POST http://localhost:8080/v1/calculator
+Content-Type: application/json
+
+{
+    "id": "calculator",
+    "result": 0.0
+}
+
+###
+
+GET http://localhost:8080/v1/calculator
+Accept: application/json
+
+###
+
+GET http://localhost:8080/v1/calculator/calculator
+Accept: application/json
+
+###
+
+PUT http://localhost:8080/v1/calculator/calculator
+Content-type: application/json
+
+{
+    "operations" : [{
+      "operationType": "-",
+      "operand": 50.0
+    }]
+}
+
+###
+
+DELETE http://localhost:8080/v1/calculator/calculator
+
+###
+
+GET http://localhost:8080/v1/calculator/notFound
+
+###
+
+PUT http://localhost:8080/v1/calculator/notFound
+Content-Type: application/json
+
+{
+  "operations" : [{
+    "operationType": "*",
+    "operand": 55.0
+  }]
+}
+
+###
+
+DELETE http://localhost:8080/v1/calculator/notFound
