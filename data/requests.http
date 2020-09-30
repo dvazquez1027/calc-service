@@ -1,4 +1,4 @@
-POST http://localhost:8080/v1/calculator
+POST http://localhost:5000/v1/calculator
 Content-Type: application/json
 
 {
@@ -8,29 +8,29 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/v1/calculator
+GET http://localhost:5000/v1/calculator
 Accept: application/json
 
 ###
 
-GET http://localhost:8080/v1/calculator/calculator
+GET http://localhost:5000/v1/calculator/calculator
 Accept: application/json
 
 ###
 
-PUT http://localhost:8080/v1/calculator/calculator
+PUT http://localhost:5000/v1/calculator/calculator
 Content-type: application/json
 
 {
     "operations" : [{
-      "operationType": "-",
-      "operand": 50.0
+      "operationType": "+",
+      "operand": 5000.0
     }]
 }
 
 ###
 
-DELETE http://localhost:8080/v1/calculator/calculator
+DELETE http://localhost:5000/v1/calculator/calculator
 
 ###
 
