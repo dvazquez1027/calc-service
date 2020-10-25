@@ -8,7 +8,6 @@ import com.ritmosoft.calculator.calcservice.generator.IDGenerator;
 import com.ritmosoft.calculator.calcservice.model.Calculation;
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Calculators;
-import com.ritmosoft.calculator.calcservice.model.Operation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculatorService {
     private final IDGenerator calculatorIDGenerator;
-    private final Map<String, Calculator> storage = new HashMap<>();
+    private final Map<String, CalculatorBrain> storage = new HashMap<>();
 
     @Autowired
     public CalculatorService(final IDGenerator calculatorIDGenerator) {
@@ -27,50 +26,37 @@ public class CalculatorService {
         if (calculator.getId() == null) {
             calculator.setId(calculatorIDGenerator.get());
         }
-        storage.put(calculator.getId(), calculator);
+        storage.put(calculator.getId(), new CalculatorBrain(calculator));
         return calculator;
     }
 
     public Calculators getCalculators() {
         Calculators ret = new Calculators();
-        ret.addAll(storage.values());
+        storage.values().forEach(cb -> ret.add(cb.getCalculator()));
         return ret;
     }
 
     public Calculator getCalculator(final String id) {
-        Calculator ret = storage.get(id);
-        if (ret != null) {
-            return ret;
+        CalculatorBrain cb = storage.get(id);
+        if (cb != null) {
+            return cb.getCalculator();
         } else {
             throw new CalculatorNotFound(id);
         }
     }
 
     public Calculator doCalculation(final String id, final Calculation calculation) {
-        final Calculator ret = getCalculator(id);
-        doCalculation(ret, calculation);
-        return ret;
+        final CalculatorBrain cb = getCalculatorBrain(id);
+        if (cb != null) {
+            doCalculation(cb, calculation);
+            return cb.getCalculator();
+        } else {
+            throw new CalculatorNotFound(id);
+        }
     }
 
-    private void doCalculation(Calculator calculator, Calculation calculation) {
-        for (Operation op : calculation.getOperations()) {
-            switch (op.getOperationType()) {
-                case PLUS:
-                    calculator.setResult(calculator.getResult().add(op.getOperand()));
-                    break;
-                case MINUS:
-                    calculator.setResult(calculator.getResult().subtract(op.getOperand()));
-                    break;
-                case STAR:
-                    calculator.setResult(calculator.getResult().multiply(op.getOperand()));
-                    break;
-                case SLASH:
-                    calculator.setResult(calculator.getResult().divide(op.getOperand()));
-                    break;
-                default: 
-                    break;
-            }
-        }
+    private void doCalculation(CalculatorBrain calculatorBrain, Calculation calculation) {
+        calculation.getOperations().forEach(op -> calculatorBrain.doCalculation(op));
     }
 
     public Calculator clearCalculator(final String id) {
@@ -80,11 +66,15 @@ public class CalculatorService {
     }
 
     public Calculator deleteCalculator(final String id) {
-        Calculator ret = storage.get(id);
-        if (ret != null) {
-            return storage.remove(id);
+        CalculatorBrain cb = storage.get(id);
+        if (cb != null) {
+            return storage.remove(id).getCalculator();
         } else {
             throw new CalculatorNotFound(id);
         }
+    }
+
+    private CalculatorBrain getCalculatorBrain(String id) {
+        return storage.get(id);
     }
 }

@@ -137,12 +137,14 @@ components:
         * '-' - Subtract operand from result.
         * '*' - Multiply result by operand.
         * '/' - Divide result by operand.
+        * '=' - Evaluate the built up expression.
       type: string
       enum:
         - '+'
         - '-'
         - '*'
         - '/'
+        - '='
     Operation:
       type: object
       properties:
