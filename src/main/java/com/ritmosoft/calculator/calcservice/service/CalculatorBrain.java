@@ -1,17 +1,17 @@
 package com.ritmosoft.calculator.calcservice.service;
 
+import java.math.BigDecimal;
 import java.util.Stack;
 
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Operation;
 import com.ritmosoft.calculator.calcservice.model.OperationType;
 
-import org.springframework.beans.factory.xml.PluggableSchemaResolver;
-
 
 public class CalculatorBrain {
     private Calculator calculator = new Calculator();
     private Stack<Operation> stack = new Stack<>();
+    private Operation lastOperation;
 
     public CalculatorBrain() {
         this.calculator = new Calculator();
@@ -27,26 +27,14 @@ public class CalculatorBrain {
         workingOp.setOperand(operation.getOperand());
 
         if (!stack.isEmpty()) {
+            lastOperation = stack.peek();
             while (!stack.isEmpty() &&
                    precedenceOf(operation.getOperationType()) <= precedenceOf(stack.peek().getOperationType())) {
                 Operation op = stack.pop();
-                switch (op.getOperationType()) {
-                    case PLUS:
-                        workingOp.setOperand(op.getOperand().add(workingOp.getOperand()));
-                        break;
-                    case MINUS:
-                        workingOp.setOperand(op.getOperand().subtract(workingOp.getOperand()));
-                        break;
-                    case STAR:
-                        workingOp.setOperand(op.getOperand().multiply(workingOp.getOperand()));
-                        break;
-                    case SLASH:
-                        workingOp.setOperand(op.getOperand().divide(workingOp.getOperand()));
-                        break;
-                    default: 
-                        break;
-                }
+                workingOp.setOperand(operate(op.getOperationType(), op.getOperand(), workingOp.getOperand()));
             }
+        } else if (lastOperation != null && operation.getOperationType() == OperationType.EQUAL) {
+            workingOp.setOperand(operate(lastOperation.getOperationType(), calculator.getResult(), lastOperation.getOperand()));
         }
         if (operation.getOperationType() != OperationType.EQUAL) {
             stack.push(workingOp);
@@ -71,6 +59,28 @@ public class CalculatorBrain {
             default:
                 return -1;
         }
+    }
+
+    private BigDecimal operate(OperationType opType, BigDecimal left, BigDecimal right) {
+        BigDecimal ret;
+        switch (opType) {
+            case PLUS:
+                ret = left.add(right);
+                break;
+            case MINUS:
+                ret = left.subtract(right);
+                break;
+            case STAR:
+                ret = left.multiply(right);
+                break;
+            case SLASH:
+                ret = left.divide(right);
+                break;
+            default:
+                ret = left;
+                break;
+        }
+        return ret;
     }
 
     public Calculator getCalculator() {

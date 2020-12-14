@@ -266,6 +266,22 @@ public class CalculatorServiceTest {
         }
     }
 
+    @Test
+    public void testRepeatsLastOperation() {
+        // given
+        CalculatorService service = createCalculatorService();
+        service.createCalculator(createCalculator(null, 0.0));
+
+        // when
+        service.doCalculation("testCalculator", createCalculation(OperationType.PLUS, 5.0));
+        service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+
+        // then
+        Calculator expected = createCalculator("testCalculator", 15.0);
+        assertEquals(expected, actual);
+    }
+
     private CalculatorService createCalculatorService() {
        return new CalculatorService(() -> { return "testCalculator"; });
     }
