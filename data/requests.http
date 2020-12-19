@@ -34,11 +34,11 @@ DELETE http://localhost:5000/v1/calculator/calculator
 
 ###
 
-GET http://localhost:8080/v1/calculator/notFound
+GET http://localhost:5000/v1/calculator/notFound
 
 ###
 
-PUT http://localhost:8080/v1/calculator/notFound
+PUT http://localhost:5000/v1/calculator/notFound
 Content-Type: application/json
 
 {
@@ -50,4 +50,40 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/v1/calculator/notFound
+DELETE http://localhost:5000/v1/calculator/notFound
+
+### 
+POST http://localhost:5000/v1/calculator
+Content-Type: application/json
+
+{
+  "id": "test",
+  "result": 5 
+}
+
+###
+
+PUT http://localhost:5000/v1/calculator/test
+Content-Type: application/json
+
+{
+  "operations" : [
+    {
+      "operationType" : "*",
+      "operand" : 5
+    }
+  ]
+}
+
+### 
+PUT http://localhost:5000/v1/calculator/test
+Content-Type: application/json
+
+{
+  "operations" : [
+    {
+      "operationType" : "*",
+      "operand" : 3
+    }
+  ]
+}
