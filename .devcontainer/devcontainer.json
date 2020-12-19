@@ -28,7 +28,8 @@
 		"redhat.vscode-xml",
 		"redhat.vscode-yaml",
 		"gabrielbb.vscode-lombok",
-		"humao.rest-client"
+		"humao.rest-client",
+		"42crunch.vscode-openapi"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
