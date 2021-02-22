@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ritmosoft.calculator.calcservice.generator.IDGenerator;
-import com.ritmosoft.calculator.calcservice.model.Calculation;
+import com.ritmosoft.calculator.calcservice.model.Operations;
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Calculators;
 
@@ -45,18 +45,18 @@ public class CalculatorService {
         }
     }
 
-    public Calculator doCalculation(final String id, final Calculation calculation) {
+    public Calculator doCalculation(final String id, final Operations operations) {
         final CalculatorBrain cb = getCalculatorBrain(id);
         if (cb != null) {
-            doCalculation(cb, calculation);
+            doCalculation(cb, operations);
             return cb.getCalculator();
         } else {
             throw new CalculatorNotFound(id);
         }
     }
 
-    private void doCalculation(CalculatorBrain calculatorBrain, Calculation calculation) {
-        calculation.getOperations().forEach(op -> calculatorBrain.doCalculation(op));
+    private void doCalculation(CalculatorBrain calculatorBrain, Operations operations) {
+        operations.forEach(op -> calculatorBrain.doCalculation(op));
     }
 
     public Calculator clearCalculator(final String id) {

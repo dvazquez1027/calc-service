@@ -21,12 +21,16 @@ Accept: application/json
 PUT http://localhost:5000/v1/calculator/calculator
 Content-type: application/json
 
-{
-    "operations" : [{
-      "operationType": "+",
-      "operand": 5000.0
-    }]
-}
+[
+  {
+    "operator": "+",
+    "operand": 5
+  },
+  {
+      "operator": "=",
+      "operand": 5
+  }
+]
 
 ###
 
@@ -41,12 +45,12 @@ GET http://localhost:5000/v1/calculator/notFound
 PUT http://localhost:5000/v1/calculator/notFound
 Content-Type: application/json
 
-{
-  "operations" : [{
+[
+  {
     "operationType": "*",
     "operand": 55.0
-  }]
-}
+  }
+]
 
 ###
 
@@ -66,24 +70,17 @@ Content-Type: application/json
 PUT http://localhost:5000/v1/calculator/test
 Content-Type: application/json
 
-{
-  "operations" : [
+[
     {
-      "operationType" : "*",
-      "operand" : 5
-    }
-  ]
-}
-
-### 
-PUT http://localhost:5000/v1/calculator/test
-Content-Type: application/json
-
-{
-  "operations" : [
+      "operator": "+",
+      "operand": 3
+    },
     {
-      "operationType" : "*",
-      "operand" : 3
+      "operator": "*",
+      "operand": 7
+    },
+    {
+      "operator": "=",
+      "operand": 2
     }
-  ]
-}
+]

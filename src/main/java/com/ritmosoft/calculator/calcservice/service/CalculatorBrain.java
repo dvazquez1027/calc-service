@@ -5,7 +5,7 @@ import java.util.Stack;
 
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Operation;
-import com.ritmosoft.calculator.calcservice.model.OperationType;
+import com.ritmosoft.calculator.calcservice.model.Operator;
 
 
 public class CalculatorBrain {
@@ -23,27 +23,27 @@ public class CalculatorBrain {
 
     public Calculator doCalculation(Operation operation) {
         Operation workingOp = new Operation();
-        workingOp.setOperationType(operation.getOperationType());
+        workingOp.setOperator(operation.getOperator());
         workingOp.setOperand(operation.getOperand());
 
         if (!stack.isEmpty()) {
             lastOperation = stack.peek();
             while (!stack.isEmpty() &&
-                   precedenceOf(operation.getOperationType()) <= precedenceOf(stack.peek().getOperationType())) {
+                   precedenceOf(operation.getOperator()) <= precedenceOf(stack.peek().getOperator())) {
                 Operation op = stack.pop();
-                workingOp.setOperand(operate(op.getOperationType(), op.getOperand(), workingOp.getOperand()));
+                workingOp.setOperand(operate(op.getOperator(), op.getOperand(), workingOp.getOperand()));
             }
-        } else if (lastOperation != null && operation.getOperationType() == OperationType.EQUAL) {
-            workingOp.setOperand(operate(lastOperation.getOperationType(), calculator.getResult(), lastOperation.getOperand()));
+        } else if (lastOperation != null && operation.getOperator() == Operator.EQUAL) {
+            workingOp.setOperand(operate(lastOperation.getOperator(), calculator.getResult(), lastOperation.getOperand()));
         }
-        if (operation.getOperationType() != OperationType.EQUAL) {
+        if (operation.getOperator() != Operator.EQUAL) {
             stack.push(workingOp);
         }
         calculator.setResult(workingOp.getOperand());
         return calculator;
     }
 
-    private int precedenceOf(OperationType operation) {
+    private int precedenceOf(Operator operation) {
         switch (operation) {
             case PLUS:
             case MINUS:
@@ -61,7 +61,7 @@ public class CalculatorBrain {
         }
     }
 
-    private BigDecimal operate(OperationType opType, BigDecimal left, BigDecimal right) {
+    private BigDecimal operate(Operator opType, BigDecimal left, BigDecimal right) {
         BigDecimal ret;
         switch (opType) {
             case PLUS:

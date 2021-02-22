@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.ritmosoft.calculator.calcservice.model.Calculation;
+import com.ritmosoft.calculator.calcservice.model.Operations;
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Operation;
-import com.ritmosoft.calculator.calcservice.model.OperationType;
+import com.ritmosoft.calculator.calcservice.model.Operator;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -90,20 +90,20 @@ public class CalculatorServiceTest {
 
     @Test
     // Addition
-    public void testDoCalculationAdd() {
+    public void testdoCalculationAdd() {
         // given
         CalculatorService service = createCalculatorService();
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.PLUS, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 5.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", 10.0);
@@ -112,20 +112,20 @@ public class CalculatorServiceTest {
 
     @Test
     // Subtraction
-    public void testDoCalculationSubtract() {
+    public void testdoCalculationSubtract() {
         // given
         CalculatorService service = createCalculatorService();
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.MINUS, 25.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.MINUS, 25.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 25.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", 20.0);
@@ -134,20 +134,20 @@ public class CalculatorServiceTest {
 
     @Test
     // Multiply
-    public void testDoCalculationMultiply() {
+    public void testdoCalculationMultiply() {
         // given
         CalculatorService service = createCalculatorService();
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.STAR, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.STAR, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 5.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", "25.00");
@@ -156,20 +156,20 @@ public class CalculatorServiceTest {
 
     @Test
     // Divide
-    public void testDoCalculationDivide() {
+    public void testdoCalculationDivide() {
         // given
         CalculatorService service = createCalculatorService();
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.SLASH, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.SLASH, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 5.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", "1");
@@ -178,16 +178,16 @@ public class CalculatorServiceTest {
 
     @Test
     // Obeys order of operations
-    public void testDoCalculationOrderOfOperations() {
+    public void testdoCalculationOrderOfOperations() {
         // given
         CalculatorService service = createCalculatorService();
         service.createCalculator(createCalculator(null, 0.0));
 
         // when - 5 + 10 * 5 + 5
-        service.doCalculation("testCalculator", createCalculation(OperationType.PLUS, 5));
-        service.doCalculation("testCalculator", createCalculation(OperationType.STAR, 10));
-        service.doCalculation("testCalculator", createCalculation(OperationType.PLUS, 5));
-        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5));
+        service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5));
+        service.doCalculation("testCalculator", createOperations(Operator.STAR, 10));
+        service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5));
 
         // then
         Calculator expected = createCalculator("testCalculator", "60.00");
@@ -241,7 +241,7 @@ public class CalculatorServiceTest {
     }
 
     @Test
-    public void testDoCalculationNotFound() {
+    public void testdoCalculationNotFound() {
         CalculatorService service = createCalculatorService();
         try {
             service.doCalculation("NotFound", null);
@@ -273,9 +273,9 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        service.doCalculation("testCalculator", createCalculation(OperationType.PLUS, 5.0));
-        service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
-        Calculator actual = service.doCalculation("testCalculator", createCalculation(OperationType.EQUAL, 5.0));
+        service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5.0));
+        service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 15.0);
@@ -300,12 +300,12 @@ public class CalculatorServiceTest {
         return newCalculator;
     }
 
-    private Calculation createCalculation(OperationType operation, double operand) {
-        Calculation ret = new Calculation();
+    private Operations createOperations(Operator operation, double operand) {
+        Operations ret = new Operations();
         Operation operationsItem = new Operation();
-        operationsItem.setOperationType(operation);
+        operationsItem.setOperator(operation);
         operationsItem.setOperand(BigDecimal.valueOf(operand));
-		ret.addOperationsItem(operationsItem);
+		ret.add(operationsItem);
         return ret;
     }
 }

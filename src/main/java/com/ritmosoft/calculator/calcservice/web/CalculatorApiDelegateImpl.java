@@ -3,7 +3,7 @@ package com.ritmosoft.calculator.calcservice.web;
 import java.net.URI;
 
 import com.ritmosoft.calculator.calcservice.api.CalculatorApiDelegate;
-import com.ritmosoft.calculator.calcservice.model.Calculation;
+import com.ritmosoft.calculator.calcservice.model.Operations;
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Calculators;
 import com.ritmosoft.calculator.calcservice.service.CalculatorNotFound;
@@ -44,9 +44,9 @@ public class CalculatorApiDelegateImpl implements CalculatorApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Calculator> doCalculationOnCalculatorWithID(String id, Calculation calculation) {
+    public ResponseEntity<Calculator> doCalculationOnCalculatorWithID(String id, Operations operations) {
         try {
-            Calculator result = service.doCalculation(id, calculation);
+            Calculator result = service.doCalculation(id, operations);
             return ResponseEntity.ok(result);
         } catch (CalculatorNotFound cnf) {
             return ResponseEntity.notFound().build();
