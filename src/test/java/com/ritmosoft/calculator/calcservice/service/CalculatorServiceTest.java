@@ -96,14 +96,14 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.ADD, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 5.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", 10.0);
@@ -118,14 +118,14 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.MINUS, 25.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.SUBTRACT, 25.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 25.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", 20.0);
@@ -140,14 +140,14 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.STAR, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.MULTIPLY, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 5.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", "25.00");
@@ -162,14 +162,14 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.SLASH, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.DIVIDE, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 5.0);
         assertEquals(expected, actual);
 
         // and when
-        actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
+        actual = service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5.0));
 
         // and then
         expected = createCalculator("testCalculator", "1");
@@ -184,10 +184,10 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when - 5 + 10 * 5 + 5
-        service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5));
-        service.doCalculation("testCalculator", createOperations(Operator.STAR, 10));
-        service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5));
-        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5));
+        service.doCalculation("testCalculator", createOperations(Operator.ADD, 5));
+        service.doCalculation("testCalculator", createOperations(Operator.MULTIPLY, 10));
+        service.doCalculation("testCalculator", createOperations(Operator.ADD, 5));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5));
 
         // then
         Calculator expected = createCalculator("testCalculator", "60.00");
@@ -273,9 +273,9 @@ public class CalculatorServiceTest {
         service.createCalculator(createCalculator(null, 0.0));
 
         // when
-        service.doCalculation("testCalculator", createOperations(Operator.PLUS, 5.0));
-        service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
-        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.EQUAL, 5.0));
+        service.doCalculation("testCalculator", createOperations(Operator.ADD, 5.0));
+        service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5.0));
+        Calculator actual = service.doCalculation("testCalculator", createOperations(Operator.EVALUATE, 5.0));
 
         // then
         Calculator expected = createCalculator("testCalculator", 15.0);

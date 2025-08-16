@@ -9,7 +9,6 @@ import com.ritmosoft.calculator.calcservice.model.Operations;
 import com.ritmosoft.calculator.calcservice.model.Calculator;
 import com.ritmosoft.calculator.calcservice.model.Calculators;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +16,6 @@ public class CalculatorService {
     private final IDGenerator calculatorIDGenerator;
     private final Map<String, CalculatorBrain> storage = new HashMap<>();
 
-    @Autowired
     public CalculatorService(final IDGenerator calculatorIDGenerator) {
         this.calculatorIDGenerator = calculatorIDGenerator;
     }

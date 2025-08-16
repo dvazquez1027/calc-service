@@ -9,7 +9,6 @@ import com.ritmosoft.calculator.calcservice.model.Calculators;
 import com.ritmosoft.calculator.calcservice.service.CalculatorNotFound;
 import com.ritmosoft.calculator.calcservice.service.CalculatorService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class CalculatorApiDelegateImpl implements CalculatorApiDelegate {
     private final CalculatorService service;
 
-    @Autowired
     public CalculatorApiDelegateImpl(CalculatorService service) {
         this.service = service;
     }

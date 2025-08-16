@@ -33,10 +33,10 @@ public class CalculatorBrain {
                 Operation op = stack.pop();
                 workingOp.setOperand(operate(op.getOperator(), op.getOperand(), workingOp.getOperand()));
             }
-        } else if (lastOperation != null && operation.getOperator() == Operator.EQUAL) {
+        } else if (lastOperation != null && operation.getOperator() == Operator.EVALUATE) {
             workingOp.setOperand(operate(lastOperation.getOperator(), calculator.getResult(), lastOperation.getOperand()));
         }
-        if (operation.getOperator() != Operator.EQUAL) {
+        if (operation.getOperator() != Operator.EVALUATE) {
             stack.push(workingOp);
         }
         calculator.setResult(workingOp.getOperand());
@@ -45,15 +45,15 @@ public class CalculatorBrain {
 
     private int precedenceOf(Operator operation) {
         switch (operation) {
-            case PLUS:
-            case MINUS:
+            case ADD:
+            case SUBTRACT:
                 return 1;
 
-            case SLASH:
-            case STAR:
+            case DIVIDE:
+            case MULTIPLY:
                 return 2;
 
-            case EQUAL:
+            case EVALUATE:
                 return 0;
 
             default:
@@ -64,16 +64,16 @@ public class CalculatorBrain {
     private BigDecimal operate(Operator opType, BigDecimal left, BigDecimal right) {
         BigDecimal ret;
         switch (opType) {
-            case PLUS:
+            case ADD:
                 ret = left.add(right);
                 break;
-            case MINUS:
+            case SUBTRACT:
                 ret = left.subtract(right);
                 break;
-            case STAR:
+            case MULTIPLY:
                 ret = left.multiply(right);
                 break;
-            case SLASH:
+            case DIVIDE:
                 ret = left.divide(right);
                 break;
             default:
